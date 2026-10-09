@@ -1,8 +1,11 @@
+import MainLayout from "./layout/MainLayout";
+
+
 function App() {
   return (
-    <div className="">
-      <h1 className="font">Hello, World!</h1>
-    </div>
+    <>
+      <MainLayout />
+    </>
   );
 }
 export default App;
