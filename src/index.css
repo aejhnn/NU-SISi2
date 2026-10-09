@@ -1,1 +1,40 @@
 @import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --color-canvas: #f4f5f9;
+  --color-ink: #141a33;
+  --color-ink-muted: #3e3f45;
+  --color-navy: #2f3b88;
+  --color-navy-deep: #1c2e5c;
+  --color-navy-ink: #38446e;
+  --color-hairline: #dfe4ea;
+  --color-signal: #fcd800;
+  --color-frame: #5b8bfc;
+
+  --animate-sweep: sweep 1.1s ease-in-out infinite;
+  --animate-reveal: reveal 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+
+  @keyframes sweep {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(400%); }
+  }
+  @keyframes reveal {
+    from { opacity: 0; transform: translateY(0.75rem); }
+  }
+}
+
+@layer base {
+  /* The landscape layout is drawn on a 120rem × 67rem artboard (1920×1072 at 16px).
+     Scaling the root font size keeps every rem measurement in proportion on any kiosk screen. */
+  @media (min-width: 64rem) {
+    html {
+      font-size: min(100vw / 120, 100vh / 67);
+    }
+  }
+
+  body {
+    @apply bg-canvas font-sans text-ink antialiased;
+  }
+}
