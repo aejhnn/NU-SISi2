@@ -29,7 +29,7 @@ function BackgroundWaves() {
       <svg
         viewBox="0 0 480 480"
         aria-hidden="true"
-        className="pointer-events-none absolute top-0 left-0 -z-10 hidden w-[30rem] lg:block drop-shadow-[0_0.4rem_0.9rem_rgb(17_24_64/0.22)]"
+        className="pointer-events-none absolute top-0 left-0 -z-10 hidden w-120 lg:block drop-shadow-[0_0.4rem_0.9rem_rgb(17_24_64/0.22)]"
       >
         <defs>
           <linearGradient id="wave-tl-navy" x1="0" y1="0" x2="1" y2="1">
