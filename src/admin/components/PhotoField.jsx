@@ -4,18 +4,26 @@ import { captureFrame, prepareUpload } from "../lib/photo";
 import { CameraIcon, UploadIcon } from "./icons";
 import { button } from "./styles";
 
-
 /** Live, mirrored camera preview, cropped by the frame the same way captureFrame crops. */
 function CameraPreview({ videoRef, onReady, onError }) {
   useEffect(() => {
     if (!navigator.mediaDevices?.getUserMedia) {
-      onError("The camera only works over a secure (https) connection. Upload a photo instead.");
+      onError(
+        "The camera only works over a secure (https) connection. Upload a photo instead.",
+      );
       return;
     }
     let stream;
     let stopped = false;
     navigator.mediaDevices
-      .getUserMedia({ video: { facingMode: "user", width: { ideal: 1280 }, height: { ideal: 960 } }, audio: false })
+      .getUserMedia({
+        video: {
+          facingMode: "user",
+          width: { ideal: 1280 },
+          height: { ideal: 960 },
+        },
+        audio: false,
+      })
       .then((granted) => {
         if (stopped) {
           granted.getTracks().forEach((track) => track.stop());
@@ -92,9 +100,17 @@ function PhotoField({ photo, savedUrl, onChange, alt, disabled = false }) {
     <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
       <div className="w-36 shrink-0">
         {cameraOpen ? (
-          <CameraPreview videoRef={videoRef} onReady={() => setCameraReady(true)} onError={cameraFailed} />
+          <CameraPreview
+            videoRef={videoRef}
+            onReady={() => setCameraReady(true)}
+            onError={cameraFailed}
+          />
         ) : (
-          <StudentPhoto src={photo?.previewUrl ?? savedUrl} alt={alt} className="w-full" />
+          <StudentPhoto
+            src={photo?.previewUrl ?? savedUrl}
+            alt={alt}
+            className="w-full"
+          />
         )}
       </div>
 
@@ -110,14 +126,18 @@ function PhotoField({ photo, savedUrl, onChange, alt, disabled = false }) {
               <CameraIcon />
               Take photo
             </button>
-            <button type="button" onClick={closeCamera} className={button("secondary", "sm")}>
+            <button
+              type="button"
+              onClick={closeCamera}
+              className={button("secondary", "sm")}
+            >
               Cancel
             </button>
           </div>
         ) : (
           <div className="flex flex-wrap gap-2">
             <label
-              className={`${button("secondary", "sm")} has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-frame ${busy ? "pointer-events-none opacity-60" : ""}`}
+              className={`${button("secondary", "sm")} has-focus-visible:outline-2 has-focus-visible]:outline-offset-2 has-focus-visible]:outline-frame ${busy ? "pointer-events-none opacity-60" : ""}`}
             >
               <UploadIcon />
               Upload photo
@@ -148,7 +168,12 @@ function PhotoField({ photo, savedUrl, onChange, alt, disabled = false }) {
               Use camera
             </button>
             {photo && (
-              <button type="button" onClick={() => onChange(null)} disabled={busy} className={button("ghost", "sm")}>
+              <button
+                type="button"
+                onClick={() => onChange(null)}
+                disabled={busy}
+                className={button("ghost", "sm")}
+              >
                 Discard
               </button>
             )}
