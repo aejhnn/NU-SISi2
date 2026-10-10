@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { RateLimitedError } from "../api/client";
 import { fetchStudents, toIdentity } from "../api/students";
 
 // The roster only changes when students register or update a photo, so a periodic refresh is
@@ -20,6 +21,8 @@ export function useStudentRoster() {
       return new Map(students.map((student) => [student.rfidUid, toIdentity(student)]));
     },
     staleTime: ROSTER_REFRESH_MS,
+    // Quick retries during a rate limit would only be refused too; the interval tries again later.
+    retry: (failureCount, error) => !(error instanceof RateLimitedError) && failureCount < 3,
     refetchInterval: (query) => (query.state.data ? ROSTER_REFRESH_MS : ROSTER_RETRY_MS),
   });
   return data;

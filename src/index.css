@@ -12,9 +12,12 @@
   --color-hairline: #dfe4ea;
   --color-signal: #fcd800;
   --color-frame: #5b8bfc;
+  --color-danger: #c62f2f;
+  --color-success: #1d7a46;
 
   --animate-sweep: sweep 1.1s ease-in-out infinite;
   --animate-reveal: reveal 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-sheet-in: sheet-in 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 
   @keyframes sweep {
     from { transform: translateX(-100%); }
@@ -23,13 +26,17 @@
   @keyframes reveal {
     from { opacity: 0; transform: translateY(0.75rem); }
   }
+  @keyframes sheet-in {
+    from { transform: translateX(2rem); opacity: 0; }
+  }
 }
 
 @layer base {
-  /* The landscape layout is drawn on a 120rem × 67rem artboard (1920×1072 at 16px).
-     Scaling the root font size keeps every rem measurement in proportion on any kiosk screen. */
+  /* The landscape kiosk layout is drawn on a 120rem × 67rem artboard (1920×1072 at 16px).
+     Scaling the root font size keeps every rem measurement in proportion on any kiosk screen.
+     The admin pages are an ordinary desktop UI and keep the browser's font size. */
   @media (min-width: 64rem) {
-    html {
+    html:not([data-app="admin"]) {
       font-size: min(100vw / 120, 100vh / 67);
     }
   }

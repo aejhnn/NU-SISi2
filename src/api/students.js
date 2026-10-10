@@ -1,36 +1,10 @@
-// Empty by default: in development Vite proxies /api to the API server (see vite.config.js).
-// Set VITE_API_BASE_URL when the dashboard is hosted somewhere other than the API.
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
-const REQUEST_TIMEOUT_MS = 8000;
+import { request } from "./client";
 
 export class StudentNotFoundError extends Error {
   constructor(rfid) {
     super(`No student is registered to card ${rfid}`);
     this.name = "StudentNotFoundError";
   }
-}
-
-/**
- * Calls an API path, POSTing `body` as JSON when given. Every API response is wrapped as
- * { status, statusCode, message, data }.
- */
-async function request(path, { signal, body } = {}) {
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    method: body ? "POST" : "GET",
-    headers: body
-      ? { Accept: "application/json", "Content-Type": "application/json" }
-      : { Accept: "application/json" },
-    body: body && JSON.stringify(body),
-    signal: signal
-      ? AbortSignal.any([signal, AbortSignal.timeout(REQUEST_TIMEOUT_MS)])
-      : AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-  });
-  const json = await response.json().catch(() => null);
-  // The dev proxy answers 502 when nothing is listening on the API's port.
-  if (!json && response.status >= 502 && response.status <= 504) {
-    throw new Error(`Can't reach the API server (HTTP ${response.status}). Is NUSIS-I2 running?`);
-  }
-  return { response, body: json };
 }
 
 /** Every registered student (without daily logs). */
