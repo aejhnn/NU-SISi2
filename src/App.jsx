@@ -8,7 +8,7 @@ function App() {
   const scan = useIdentification();
   const person = scan.identity ?? sampleStudent;
   // A new key replays the entrance animation each time a card is tapped.
-  const revealKey = scan.identity ? `${person.studentId}@${person.timeIn.getTime()}` : "sample";
+  const revealKey = scan.identity ? `${person.studentId}@${person.scannedAt.getTime()}` : "sample";
 
   return (
     <MainLayout title="Identification Preview">
